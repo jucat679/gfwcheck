@@ -1,13 +1,13 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 	"os"
 )
 
 func CheckErr(err error) bool {
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return false
 	}
 	return true

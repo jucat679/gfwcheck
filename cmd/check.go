@@ -21,8 +21,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"os"
 
 	"github.com/mritd/gfwcheck/proxy"
@@ -39,7 +37,7 @@ var checkCmd = &cobra.Command{
 			cmd.Help()
 			os.Exit(1)
 		}
-		fmt.Println(proxy.CheckGFW(args[0]))
+		proxy.Check(args[0])
 	},
 }
 

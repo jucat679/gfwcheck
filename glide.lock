@@ -1,5 +1,5 @@
-hash: 7487e26f7b7654c58baf2b02e5aaf3c26a6ffcf1185d9728221f445288c00fec
-updated: 2018-05-22T20:08:41.304394067+08:00
+hash: b7bbc950288abd439a8f9c278f96f0dd2883a3260c69cc4dc5dbc13d19e2da84
+updated: 2018-05-22T22:28:41.670598+08:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
@@ -25,6 +25,8 @@ imports:
   version: 00c29f56e2386353d58c599509e8dc3801b0d716
 - name: github.com/pelletier/go-toml
   version: 05bcc0fb0d3e60da4b8dd5bd7e0ea563eb4ca943
+- name: github.com/robfig/cron
+  version: b41be1df696709bb6395fe435af20370037c0b4c
 - name: github.com/spf13/afero
   version: bbf41cb36dffe15dff5bf7e18c447801e7ffe163
   subpackages:

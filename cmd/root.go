@@ -21,13 +21,14 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"path/filepath"
 
+	"log"
+
 	"github.com/mitchellh/go-homedir"
-	"github.com/mritd/gfwcheck/remote"
+	"github.com/mritd/gfwcheck/exec"
 	"github.com/mritd/gfwcheck/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -41,13 +42,13 @@ var RootCmd = &cobra.Command{
 	Long: `
 gfw check`,
 	Run: func(cmd *cobra.Command, args []string) {
-
+		exec.Start()
 	},
 }
 
 func Execute() {
 	if err := RootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		os.Exit(-1)
 	}
 }
@@ -72,7 +73,7 @@ func initConfig() {
 	if _, err = os.Stat(cfgFile); err != nil {
 		os.Create(cfgFile)
 		viper.SetConfigType("yaml")
-		viper.Set("Servers", remote.ExampleConfig())
+		viper.Set("Servers", exec.ExampleConfig())
 		viper.WriteConfig()
 	}
 	viper.AutomaticEnv()
