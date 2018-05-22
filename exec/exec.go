@@ -51,7 +51,8 @@ func (server *ServerConfig) LocalExec() bool {
 	}
 }
 
-func CheckGFWAndExec(server ServerConfig) {
+func (server *ServerConfig) CheckGFWAndExec() {
+	log.Printf("%s checking...\n", server.Name)
 	if !proxy.Check(server.Proxy) {
 		server.RemoteExec()
 		server.LocalExec()
@@ -66,9 +67,10 @@ func Start() {
 		return
 	}
 	c := cron.New()
-	for _, s := range servers {
-		c.AddFunc(s.Cron, func() {
-			CheckGFWAndExec(s)
+	for i, _ := range servers {
+		x := i
+		c.AddFunc(servers[x].Cron, func() {
+			servers[x].CheckGFWAndExec()
 		})
 	}
 	c.Start()
