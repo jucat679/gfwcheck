@@ -16,7 +16,7 @@ import (
 func Install() {
 
 	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
-		CheckRoot()
+		Uninstall()
 
 		log.Println("Create config dir /etc/gfwcheck")
 		os.MkdirAll("/etc/gfwcheck", 0755)
@@ -45,8 +45,8 @@ func Install() {
 		viper.Set("Servers", cfg.ExampleConfig())
 		CheckAndExit(viper.WriteConfig())
 
-		log.Println("Create systemd config file /usr/lib/systemd/system/gfwcheck.service")
-		systemdServiceFile, err := os.Create("/usr/lib/systemd/system/gfwcheck.service")
+		log.Println("Create systemd config file /lib/systemd/system/gfwcheck.service")
+		systemdServiceFile, err := os.Create("/lib/systemd/system/gfwcheck.service")
 		defer systemdServiceFile.Close()
 		CheckAndExit(err)
 		fmt.Fprint(systemdServiceFile, cfg.SystemdConfig)

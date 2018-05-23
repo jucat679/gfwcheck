@@ -18,7 +18,7 @@ func Uninstall() {
 		log.Println("Clean files")
 		os.Remove("/usr/bin/gfwcheck")
 		os.Remove("/etc/gfwcheck")
-		os.Remove("/usr/lib/systemd/system/gfwcheck.service")
+		os.Remove("/lib/systemd/system/gfwcheck.service")
 
 		log.Println("Systemd reload")
 		exec.Command("systemctl", "daemon-reload").Run()
