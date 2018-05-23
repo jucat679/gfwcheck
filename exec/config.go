@@ -2,6 +2,23 @@ package exec
 
 import "time"
 
+const SystemdConfig = `[Unit]
+Description=GFW Check
+Documentation=https://github.com/mritd/gfwcheck
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/gfwcheck --config /etc/gfwcheck/config.yaml
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target`
+
 type ServerConfig struct {
 	Name      string        `yml:"name"`
 	Host      string        `yml:"ip"`
