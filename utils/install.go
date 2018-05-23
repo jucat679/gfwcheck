@@ -40,7 +40,7 @@ func Install() {
 		defer configFile.Close()
 		CheckAndExit(err)
 		viper.AddConfigPath("/etc/gfwcheck/")
-		viper.SetConfigName(".gfwcheck")
+		viper.SetConfigName("config")
 		viper.SetConfigType("yaml")
 		viper.Set("Servers", cfg.ExampleConfig())
 		CheckAndExit(viper.WriteConfig())
