@@ -79,6 +79,9 @@ func (server *Server) CheckGFWAndExec() {
 		mutex.Unlock()
 		if server.failedCount >= server.MaxFailed {
 			alarm.Alarm(server.Name)
+			mutex.Lock()
+			server.failedCount = 0
+			mutex.Unlock()
 		}
 		server.RemoteExec()
 		server.LocalExec()
