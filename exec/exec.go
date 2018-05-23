@@ -16,17 +16,19 @@ import (
 
 func (server *ServerConfig) RemoteExec() bool {
 	client, err := server.Connection()
-	defer client.Close()
 	if err != nil {
 		log.Printf("Connect to server [%s] failed!\n", server.Host)
+		log.Println(err.Error())
 		return false
 	}
+	defer client.Close()
 	session, err := client.NewSession()
-	defer session.Close()
 	if err != nil {
 		log.Println("Session create failed:", err)
+		log.Println(err.Error())
 		return false
 	}
+	defer session.Close()
 	session.Stdout = os.Stdout
 	session.Stderr = os.Stderr
 

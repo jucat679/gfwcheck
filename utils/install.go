@@ -26,27 +26,27 @@ func Install() {
 		CheckAndExit(err)
 
 		currentFile, err := os.Open(currentPath)
-		defer currentFile.Close()
 		CheckAndExit(err)
+		defer currentFile.Close()
 
 		installFile, err := os.OpenFile("/usr/bin/gfwcheck", os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0755)
-		defer installFile.Close()
 		CheckAndExit(err)
+		defer installFile.Close()
 		_, err = io.Copy(installFile, currentFile)
 		CheckAndExit(err)
 
 		log.Println("Create config file /etc/gfwcheck/config.yaml")
 		configFile, err := os.Create("/etc/gfwcheck/config.yaml")
-		defer configFile.Close()
 		CheckAndExit(err)
+		defer configFile.Close()
 		viper.SetConfigFile("/etc/gfwcheck/config.yaml")
 		viper.Set("Servers", cfg.ExampleConfig())
 		CheckAndExit(viper.WriteConfig())
 
 		log.Println("Create systemd config file /lib/systemd/system/gfwcheck.service")
 		systemdServiceFile, err := os.Create("/lib/systemd/system/gfwcheck.service")
-		defer systemdServiceFile.Close()
 		CheckAndExit(err)
+		defer systemdServiceFile.Close()
 		fmt.Fprint(systemdServiceFile, cfg.SystemdConfig)
 
 	} else {
