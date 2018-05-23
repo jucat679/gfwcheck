@@ -9,12 +9,17 @@ import (
 
 	"strings"
 
+	"sync"
+
+	"github.com/mritd/gfwcheck/alarm"
 	"github.com/mritd/gfwcheck/proxy"
 	"github.com/robfig/cron"
 	"github.com/spf13/viper"
 )
 
-func (server *ServerConfig) RemoteExec() bool {
+var m *sync.RWMutex
+
+func (server *Server) RemoteExec() bool {
 	client, err := server.Connection()
 	if err != nil {
 		log.Printf("Connect to server [%s] failed!\n", server.Host)
@@ -43,7 +48,7 @@ func (server *ServerConfig) RemoteExec() bool {
 	}
 }
 
-func (server *ServerConfig) LocalExec() bool {
+func (server *Server) LocalExec() bool {
 	var cmd *exec.Cmd
 	localCmd := strings.Fields(server.LocalCmd)
 	if len(localCmd) < 1 {
@@ -66,16 +71,26 @@ func (server *ServerConfig) LocalExec() bool {
 	}
 }
 
-func (server *ServerConfig) CheckGFWAndExec() {
+func (server *Server) CheckGFWAndExec() {
 	log.Printf("%s checking...\n", server.Name)
 	if !proxy.Check(server.Proxy) {
+		m.Lock()
+		server.failedCount++
+		m.Unlock()
+		if server.failedCount >= server.MaxFailed {
+			alarm.Alarm(server.Name)
+		}
 		server.RemoteExec()
 		server.LocalExec()
+	} else {
+		m.Lock()
+		server.failedCount = 0
+		m.Unlock()
 	}
 }
 
 func Start() {
-	var servers []ServerConfig
+	var servers []Server
 	err := viper.UnmarshalKey("servers", &servers)
 	if err != nil {
 		log.Println("Can't parse server config!")

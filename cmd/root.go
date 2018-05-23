@@ -28,6 +28,7 @@ import (
 	"log"
 
 	"github.com/mitchellh/go-homedir"
+	"github.com/mritd/gfwcheck/alarm"
 	"github.com/mritd/gfwcheck/exec"
 	"github.com/mritd/gfwcheck/utils"
 	"github.com/spf13/cobra"
@@ -73,6 +74,8 @@ func initConfig() {
 	if _, err = os.Stat(cfgFile); err != nil {
 		os.Create(cfgFile)
 		viper.SetConfigType("yaml")
+		viper.Set("alarms", alarm.ExampleConfig())
+		viper.Set("smtp", alarm.SMTPExampleConfig())
 		viper.Set("Servers", exec.ExampleConfig())
 		viper.WriteConfig()
 	}

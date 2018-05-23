@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-func (server *ServerConfig) Connection() (*ssh.Client, error) {
+func (server *Server) Connection() (*ssh.Client, error) {
 	authMethods, err := parseAuthMethods(server)
 
 	if err != nil {
@@ -35,7 +35,7 @@ func (server *ServerConfig) Connection() (*ssh.Client, error) {
 
 }
 
-func parseAuthMethods(server *ServerConfig) ([]ssh.AuthMethod, error) {
+func parseAuthMethods(server *Server) ([]ssh.AuthMethod, error) {
 	var authMethods []ssh.AuthMethod
 
 	switch server.Method {
@@ -58,7 +58,7 @@ func parseAuthMethods(server *ServerConfig) ([]ssh.AuthMethod, error) {
 	return authMethods, nil
 }
 
-func pemKey(server *ServerConfig) (ssh.AuthMethod, error) {
+func pemKey(server *Server) (ssh.AuthMethod, error) {
 	pemBytes, err := ioutil.ReadFile(server.Key)
 	if err != nil {
 		return nil, err

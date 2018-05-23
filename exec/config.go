@@ -19,23 +19,25 @@ LimitNOFILE=65536
 [Install]
 WantedBy=multi-user.target`
 
-type ServerConfig struct {
-	Name      string        `yml:"name"`
-	Host      string        `yml:"ip"`
-	Port      int           `yml:"port"`
-	User      string        `yml:"user"`
-	Password  string        `yml:"password"`
-	Method    string        `yml:"method"`
-	Key       string        `yml:"key"`
-	Timeout   time.Duration `yml:"timeout"`
-	Proxy     string        `yml:"proxy"`
-	LocalCmd  string        `yml:"localcmd"`
-	RemoteCmd string        `yml:"remotecmd"`
-	Cron      string        `yml:"cron"`
+type Server struct {
+	Name        string        `yml:"name"`
+	Host        string        `yml:"ip"`
+	Port        int           `yml:"port"`
+	User        string        `yml:"user"`
+	Password    string        `yml:"password"`
+	Method      string        `yml:"method"`
+	Key         string        `yml:"key"`
+	Timeout     time.Duration `yml:"timeout"`
+	Proxy       string        `yml:"proxy"`
+	LocalCmd    string        `yml:"localcmd"`
+	RemoteCmd   string        `yml:"remotecmd"`
+	Cron        string        `yml:"cron"`
+	MaxFailed   int           `yml:"maxfailed"`
+	failedCount int
 }
 
-func ExampleConfig() []*ServerConfig {
-	return []*ServerConfig{
+func ExampleConfig() []*Server {
+	return []*Server{
 		{
 			Name:      "test1",
 			Host:      "test1.com",
