@@ -44,6 +44,7 @@ func (server *ServerConfig) LocalExec() bool {
 	err := c.Run()
 	if err != nil {
 		log.Printf("Server %s local command [%s] exec failed!\n", server.Name, server.LocalCmd)
+		log.Println(err.Error())
 		return false
 	} else {
 		log.Printf("Server %s local command [%s] exec success!\n", server.Name, server.LocalCmd)
