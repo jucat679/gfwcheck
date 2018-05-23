@@ -7,6 +7,8 @@ import (
 
 	"os"
 
+	"strings"
+
 	"github.com/mritd/gfwcheck/proxy"
 	"github.com/robfig/cron"
 	"github.com/spf13/viper"
@@ -40,8 +42,18 @@ func (server *ServerConfig) RemoteExec() bool {
 }
 
 func (server *ServerConfig) LocalExec() bool {
-	c := exec.Command(server.LocalCmd)
-	err := c.Run()
+	var cmd *exec.Cmd
+	localCmd := strings.Fields(server.LocalCmd)
+	if len(localCmd) < 1 {
+		log.Printf("Local command missing,Server %s\n", server.Name)
+		return false
+	} else if len(localCmd) == 1 {
+		cmd = exec.Command(localCmd[0])
+	} else {
+		cmd = exec.Command(localCmd[0], localCmd[1:]...)
+	}
+
+	err := cmd.Run()
 	if err != nil {
 		log.Printf("Server %s local command [%s] exec failed!\n", server.Name, server.LocalCmd)
 		log.Println(err.Error())
