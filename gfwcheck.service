@@ -1,0 +1,16 @@
+[Unit]
+Description=GFW Check
+Documentation=https://github.com/mritd/gfwchec
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/gfwcheck --config /etc/gfwcheck.yaml
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

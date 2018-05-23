@@ -39,7 +39,7 @@ func ExampleConfig() []*ServerConfig {
 			Port:      22,
 			User:      "root",
 			Password:  "",
-			Key:       "~/.ssh/id_rsa",
+			Key:       "/etc/gfwcheck/id_rsa",
 			Method:    "pem",
 			Timeout:   10 * time.Second,
 			Proxy:     "http://192.168.1.10:2012",
