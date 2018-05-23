@@ -17,7 +17,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var m *sync.RWMutex
+var mutex sync.RWMutex
 
 func (server *Server) RemoteExec() bool {
 	client, err := server.Connection()
@@ -74,18 +74,18 @@ func (server *Server) LocalExec() bool {
 func (server *Server) CheckGFWAndExec() {
 	log.Printf("%s checking...\n", server.Name)
 	if !proxy.Check(server.Proxy) {
-		m.Lock()
+		mutex.Lock()
 		server.failedCount++
-		m.Unlock()
+		mutex.Unlock()
 		if server.failedCount >= server.MaxFailed {
 			alarm.Alarm(server.Name)
 		}
 		server.RemoteExec()
 		server.LocalExec()
 	} else {
-		m.Lock()
+		mutex.Lock()
 		server.failedCount = 0
-		m.Unlock()
+		mutex.Unlock()
 	}
 }
 

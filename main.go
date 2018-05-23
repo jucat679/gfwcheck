@@ -20,7 +20,9 @@
 
 package main
 
-import "github.com/mritd/gfwcheck/cmd"
+import (
+	"github.com/mritd/gfwcheck/cmd"
+)
 
 func main() {
 	cmd.Execute()

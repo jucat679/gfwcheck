@@ -119,7 +119,7 @@ func (cfg *SMTPConfig) sendEmail(toAddr string, body string) (err error) {
 		return
 	}
 	// compose message body
-	message := cfg.composeMsg(from.String(), to.String(), "GFW Check", body)
+	message := cfg.composeMsg(to.String(), "GFW Check", body)
 	// write message to recp
 	_, err = writer.Write([]byte(message))
 	if err != nil {
